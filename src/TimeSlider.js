@@ -9,28 +9,32 @@ export default function TimeSlider(props) {
 
     const marks = [
         {
-          value: -90,
+          value: -18,
           label: '-90 min.',
+        },
+        {
+          value: -12,
+          label: '-60 min.',
+        },
+        {
+          value: -6,
+          label: '-30 min.',
         },
         {
           value: 0,
           label: 'Nå',
         },
-        {
-          value: 90,
-          label: '+90 min.',
-        },
       ];
     
     return (
-        <div className="slider" style={{width: "300px", color: "red"}}>
+        <div className="slider" style={{width: "400px"}}>
             <Slider
-                defaultValue={0}
+                value={props.value}
                 onChange={handleChange}
                 aria-labelledby="discrete-slider-small-steps"
-                step={10}
-                min={-90}
-                max={90}
+                step={1}
+                min={-18}
+                max={0}
                 marks={marks}
           />
             

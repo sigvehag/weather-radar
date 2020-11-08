@@ -1,36 +1,74 @@
-import React, {useState} from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+
+import PlayArrowIcon from '@material-ui/icons/PlayArrow';
+import PauseIcon from '@material-ui/icons/Pause';
+
 import TimeSlider from './TimeSlider';
 
-export default function Player() {
+import './Player.css';
 
-    const [time, setTime] = useState(0);
 
-const handleSliderChange = (value) => {
-    setTime(value);
-}
+export default function Player(props) {
 
-const getDateTime = (minuteDiff) => {
-    let date = new Date(Date.now());
+    const [ availableImages, setAvailableImages ] = useState([]);
+    const [ imageUrls, setImageUrls ] = useState([]);
+    const [ timeStep, setTimeStep ] = useState(0);
+    const [ playing, setPlaying ] = useState(false);
 
-    date.setMinutes((Math.round((date.getMinutes() + minuteDiff) / 10) * 10) % 60);
-    date.setHours(date.getHours() + Math.round((date.getMinutes() + minuteDiff) / 60));
+    useEffect(() => {
+        async function fetchData() {
+            const response = await axios(
+                'https://api.met.no/weatherapi/radar/2.0/available.json?type=5level_reflectivity&content=image&area=' + props.selectedArea,
+            );
+            setAvailableImages(response.data);
+        }
+        fetchData();
+    }, [props.selectedArea]);
+
+    useEffect( () => {
+        if (availableImages.length > 0) {
+            let newArray = [];
+            for (let i = 0; i < availableImages.length; i++) {
+                newArray.push(availableImages[i].uri);
+            }
+            setImageUrls(newArray);
+        }
+    }, [availableImages])
+
+    useEffect(() => {
+        const loop = setInterval(() => {
+            if( playing ) {
+                if (timeStep === 0) {
+                    setTimeStep(-18);
+                } else {
+                    setTimeStep(timeStep+1);
+                }
+            }
+        }, 750);
+        return () => clearInterval(loop);
+    });
+
     
-    return date.getFullYear() + '-' +
-        date.getUTCMonth() + '-' +
-        date.getUTCDate() + 'T' +
-        date.getUTCHours() + ':' +
-        (date.getUTCMinutes()<10?'0':'') + date.getUTCMinutes() +
-        ':00z';
-}
+    const handleSliderChange = (value) => {
+        setTimeStep(value);
+    }
 
-let datetime = getDateTime(20);
-
-return(
-    <div className="player">
-        <h1>{time}</h1>
-        <h1>{datetime}</h1>
-        <TimeSlider callbackFunction = {handleSliderChange}/>
-    </div>
-)
+    let imagesrc = imageUrls[imageUrls.length - 1 + timeStep]
+    
+    return(
+        <div className="player">
+            <img src={imagesrc} alt="Radar-bilde" />
+            <div className="player-controls">
+                <div className="play-pause" onClick={() => setPlaying(!playing)} >
+                    { playing ?
+                        <PauseIcon fontSize="large" /> :
+                        <PlayArrowIcon fontSize="large" />
+                    }
+                </div>
+                <TimeSlider className="player-slider" value={timeStep} callbackFunction = {handleSliderChange}/>
+            </div>
+        </div>
+    )
 
 }

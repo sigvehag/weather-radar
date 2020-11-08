@@ -1,0 +1,11 @@
+.player-controls {
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.play-pause {
+    margin-right: 40px;
+    color: black;
+}
