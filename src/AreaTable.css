@@ -1,3 +1,20 @@
-.area-button {
+.areas {
+    margin-left: 3vw;
+}
+
+button {
     width: 15vw;
+    border: none;
+    padding: 8px;
+    font-size: 14px;
+    margin: 2px 2px;
+    border-radius: 4px;
+}
+
+.area-button:hover {
+    background-color: #516be8;
+}
+
+.area-button-selected {
+    background-color: #1a35ba;
 }

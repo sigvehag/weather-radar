@@ -18,10 +18,13 @@ function App() {
       <header className="header">
         <h1>Værradar</h1>
       </header>
-       <div className="body">
-          <AreaTable callbackFunction={handleAreaSelect} />
-          <Player className="player-container" selectedArea={selectedArea} />
-        </div>
+      <div className="body">
+        <AreaTable callbackFunction={handleAreaSelect} selectedArea={selectedArea} />
+        <Player className="player-container" selectedArea={selectedArea} />
+      </div>
+      <div className="github-link">
+        <a href="https://github.com/sigvehag">sigvehag - GitHub</a>
+      </div>
     </div>
   );
 }

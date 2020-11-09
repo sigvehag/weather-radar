@@ -2,20 +2,20 @@
   text-align: center;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
 .header {
   background-color: #282c34;
   height: 10vh;
   display: flex;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+  justify-content: left;
   color: white;
+}
+
+.header > h1 {
+  padding-left: 50px;
+  font-size: 40px;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-weight: 400;
 }
 
 .body {
@@ -28,4 +28,24 @@
 .player-container {
   min-width: 60vw;
   max-width: 700px;
+  max-height: 90vh;
+}
+
+a {
+  text-decoration: none;
+  color:#222222;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+a:visited {
+  color:#222222;
+}
+
+.github-link {
+  position: fixed;
+  right: 0px; bottom: 0px;
+  padding: 5px;
 }

@@ -31,6 +31,7 @@ export default function Player(props) {
                     });
                 }
                 setImageData(newArray);
+                setTimeStep(0);
             }
         }
         fetchData();
@@ -61,7 +62,7 @@ export default function Player(props) {
         let currentImage = imageData[imageData.length - 1 + timeStep];
         imagesrc = currentImage.uri;
         let date = currentImage.time.match(/\d+/g);
-        timestamp = date[0] + "." + date[1] + "." + date[2] + " " + (parseInt(date[3]) + 1) + ":" + date[4] + ":" + date[5];
+        timestamp = date[2] + "." + date[1] + "." + date[0] + " " + (parseInt(date[3]) + 1) + ":" + date[4] + ":" + date[5];
     }
 
     
@@ -69,7 +70,7 @@ export default function Player(props) {
     return(
         <div className="player">
             <div className="radar-image">
-                <img className="fuck" src={imagesrc} alt="Radar-bilde" />
+                <img src={imagesrc} alt="Radar-bilde" />
             </div>
             <div className="timeStamp">
                 <p>{timestamp}</p>

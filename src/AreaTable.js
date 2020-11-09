@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
 import './AreaTable.css';
 
@@ -34,13 +34,18 @@ export default function Player(props) {
 
     return(
         <div>
-            <table id="areas">
+            <table className="areas" id="areas">
                 <tbody>
                     {areas.map((area) => {
+                        let btnClass = (area.value === props.selectedArea ?
+                            'area-button-selected' : 
+                            'area-button'
+                        );
+                
                         return (
                             <tr key={area.value} onClick={() => handleClick(area.value)}>
                                 <td>
-                                    <button type="button" className="area-button">
+                                    <button type="button" className={btnClass}>
                                         {area.name}
                                     </button>
                                 </td>
