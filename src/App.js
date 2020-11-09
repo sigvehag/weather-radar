@@ -10,17 +10,18 @@ function App() {
   const [ selectedArea, setSelectedArea ] = useState("eastern_norway");
 
   const handleAreaSelect = (areaValue) => {
-    console.log(areaValue);
     setSelectedArea(areaValue);
   }
 
   return (
     <div className="App">
-      <header className="App-header">
-        <h1>Vær-radar</h1>
-        <AreaTable callbackFunction={handleAreaSelect} />
-        <Player selectedArea={selectedArea} />
+      <header className="header">
+        <h1>Værradar</h1>
       </header>
+       <div className="body">
+          <AreaTable callbackFunction={handleAreaSelect} />
+          <Player className="player-container" selectedArea={selectedArea} />
+        </div>
     </div>
   );
 }

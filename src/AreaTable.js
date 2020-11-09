@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+
+import './AreaTable.css';
 
 export default function Player(props) {
 
@@ -38,7 +39,11 @@ export default function Player(props) {
                     {areas.map((area) => {
                         return (
                             <tr key={area.value} onClick={() => handleClick(area.value)}>
-                                <td>{area.name}</td>
+                                <td>
+                                    <button type="button" className="area-button">
+                                        {area.name}
+                                    </button>
+                                </td>
                             </tr>
                         )
                     })

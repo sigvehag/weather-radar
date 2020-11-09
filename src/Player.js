@@ -11,8 +11,7 @@ import './Player.css';
 
 export default function Player(props) {
 
-    const [ availableImages, setAvailableImages ] = useState([]);
-    const [ imageUrls, setImageUrls ] = useState([]);
+    const [ imageData, setImageData ] = useState([]);
     const [ timeStep, setTimeStep ] = useState(0);
     const [ playing, setPlaying ] = useState(false);
 
@@ -21,20 +20,21 @@ export default function Player(props) {
             const response = await axios(
                 'https://api.met.no/weatherapi/radar/2.0/available.json?type=5level_reflectivity&content=image&area=' + props.selectedArea,
             );
-            setAvailableImages(response.data);
+            let data = response.data;
+
+            if (data.length > 0) {
+                let newArray = [];
+                for (let i = 0; i < data.length; i++) {
+                    newArray.push({
+                        time: data[i].params.time,
+                        uri: data[i].uri
+                    });
+                }
+                setImageData(newArray);
+            }
         }
         fetchData();
     }, [props.selectedArea]);
-
-    useEffect( () => {
-        if (availableImages.length > 0) {
-            let newArray = [];
-            for (let i = 0; i < availableImages.length; i++) {
-                newArray.push(availableImages[i].uri);
-            }
-            setImageUrls(newArray);
-        }
-    }, [availableImages])
 
     useEffect(() => {
         const loop = setInterval(() => {
@@ -54,12 +54,28 @@ export default function Player(props) {
         setTimeStep(value);
     }
 
-    let imagesrc = imageUrls[imageUrls.length - 1 + timeStep]
+    let imagesrc = "";
+    let timestamp = "";
+
+    if (imageData.length > 0) {
+        let currentImage = imageData[imageData.length - 1 + timeStep];
+        imagesrc = currentImage.uri;
+        let date = currentImage.time.match(/\d+/g);
+        timestamp = date[0] + "." + date[1] + "." + date[2] + " " + (parseInt(date[3]) + 1) + ":" + date[4] + ":" + date[5];
+    }
+
     
+
     return(
         <div className="player">
-            <img src={imagesrc} alt="Radar-bilde" />
+            <div className="radar-image">
+                <img className="fuck" src={imagesrc} alt="Radar-bilde" />
+            </div>
+            <div className="timeStamp">
+                <p>{timestamp}</p>
+            </div>
             <div className="player-controls">
+                
                 <div className="play-pause" onClick={() => setPlaying(!playing)} >
                     { playing ?
                         <PauseIcon fontSize="large" /> :
