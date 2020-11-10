@@ -27,7 +27,7 @@ export default function TimeSlider(props) {
       ];
     
     return (
-        <div className="slider" style={{width: "400px"}}>
+        <div className="slider">
             <Slider
                 value={props.value}
                 onChange={handleChange}
